@@ -1,20 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import Post from './components/Post';
+import Navbar from './components/Navbar';
+import AddPost from './components/AddPost';
+
 
 export default function App() {
+
+  const data = [
+    { id: 1, title: "Java script", desc: "текст" },
+    { id: 2, title: "Title", desc: "текст" },
+    { id: 3, title: "Title", desc: "текст" }
+  ];
+
+  const [posts, setPosts] = useState(data);
+
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost])
+  }
+
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.div}>
+      <Navbar title="NavBar"></Navbar>
+      <AddPost create={createPost}></AddPost>
+      <ScrollView style={styles.container}>
+        {
+          posts.map(post => {
+            return (
+              <Post post={post} key={post.id} ></Post>
+            )
+          })
+        }
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    margin: 10
   },
+
+  div: {
+    marginTop: 35,
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#9c30fa',
+  },
+
 });
+
